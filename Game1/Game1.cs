@@ -75,9 +75,8 @@ namespace Game1
             _testTex = Content.Load<Texture2D>("BeachBallTexture");
 
             _basic3DObjects.AddFloor(200, 200, Vector3.Zero, Vector3.Zero, "BeachBallTexture", null);
-            _basic3DObjects.AddCube(50, 50, 50, Vector3.Zero, Vector3.Zero, "BeachBallTexture", null);
-            _basic3DObjects.Objects[1].Position = new Vector3(30, -40, -30);
-
+            _basic3DObjects.AddCube(50, 50, 50, Vector3.Zero, Vector3.Zero, "rubik", null);
+            _basic3DObjects.Objects[1].Position = new Vector3(0, -40, 0);
         }
 
         protected override void Update(GameTime gameTime)
@@ -88,14 +87,15 @@ namespace Game1
 
             _camera.MoveCamera(new Vector3(_input.GamePadState.ThumbSticks.Left.X, _input.GamePadState.ThumbSticks.Right.Y, _input.GamePadState.ThumbSticks.Right.X));
             _camera.UpdatePlayerCam();
-            if (_input.KeyDown(Keys.Up)) _basic3DObjects.Objects[0].Position.Z++;
-            if (_input.KeyDown(Keys.Down)) _basic3DObjects.Objects[0].Position.Z--;
+            if (_input.KeyDown(Keys.PageUp)) _basic3DObjects.Objects[0].Position.Z++;
+            if (_input.KeyDown(Keys.PageDown)) _basic3DObjects.Objects[0].Position.Z--;
             if (_input.KeyDown(Keys.Left)) _basic3DObjects.Objects[0].Position.X--;
             if (_input.KeyDown(Keys.Right)) _basic3DObjects.Objects[0].Position.X++;
-            if (_input.KeyDown(Keys.PageUp)) _basic3DObjects.Objects[0].Position.Y--;
-            if (_input.KeyDown(Keys.PageDown)) _basic3DObjects.Objects[0].Position.Y++;
-            _basic3DObjects.Objects[1].Rotation.Y += 0.3f;                       // rotate just for fun
+            if (_input.KeyDown(Keys.Up)) _basic3DObjects.Objects[0].Position.Y--;
+            if (_input.KeyDown(Keys.Down)) _basic3DObjects.Objects[0].Position.Y++;
+            _basic3DObjects.Objects[1].Rotation.Y += 0.03f;                       // rotate just for fun
             _basic3DObjects.Objects[1].UpdateTransform();
+            _basic3DObjects.Objects[0].UpdateTransform();
             base.Update(gameTime);
         }
 
@@ -116,9 +116,11 @@ namespace Game1
 
             // PRINT CAMERA COORDONATE
             _spriteBatch.DrawString(_spriteFont, "X : "+_camera.Position.X.ToString(), new Vector2(0, 0), Color.White);
-            _spriteBatch.DrawString(_spriteFont, "Y : "+ _camera.Position.Y.ToString(), new Vector2(0, 20), Color.White);
+            _spriteBatch.DrawString(_spriteFont, "Y : "+ (-_camera.Position.Y).ToString(), new Vector2(0, 20), Color.White);
             _spriteBatch.DrawString(_spriteFont, "Z : "+_camera.Position.Z.ToString(), new Vector2(0, 40), Color.White);
 
+            _spriteBatch.DrawString(_spriteFont, "Width : " + _desktopRect.Width, new Vector2(0, 60), Color.White);
+            _spriteBatch.DrawString(_spriteFont, "Height : " + _desktopRect.Height, new Vector2(0, 80), Color.White);
 
             _spriteBatch.End();
 
